@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Contacts App
+
+A simple CRUD (Create, Read, Update, Delete) application for managing contacts.
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- [Docker](https://www.docker.com/get-started) installed on your machine.
+- [Node.js](https://nodejs.org/) installed on your machine.
 
 ## Getting Started
 
-First, run the development server:
+To set up and run the project locally, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the repository:**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   Clone the repository to your local machine:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```bash
+   git clone <repository-url>
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   Navigate to the project directory:
+   
+   ```bash
+   cd CRUD-APP/contacts-application
+   ```
 
-## Learn More
+2. **Start Docker services:**
 
-To learn more about Next.js, take a look at the following resources:
+    Ensure Docker is running, then bring up the necessary services
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    docker compose up -d
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Install dependencies:**
 
-## Deploy on Vercel
+    Install the project dependencies using npm:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    npm install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+4. **Setup Prisma:**
+
+    Run Prisma migrations to set up the database:
+
+    ```bash
+    npx prisma migrate dev
+    ```
+    Generate Prisma Client:
+
+    ```bash
+    npx prisma generate
+    ```
+
+5. **Build the project:**
+
+    Build the application for production:
+
+    ```bash
+    npm run build
+    ```
+
+6. **Start the application:**
+
+    Start the server to run the app:
+
+    ```bash
+    npm run start
+    ```
+
+7. **Access the app:**
+
+    Open your web browser and navigate to:
+
+    ```bash
+    http://localhost:3000
+    ```
+
+## Features
+
+Create, Read, Update, and Delete contacts.
+
+Manage contact details including name, phone number, email, address and notes.

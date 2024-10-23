@@ -24,7 +24,7 @@ To set up and run the project locally, follow these steps:
    Navigate to the project directory:
    
    ```bash
-   cd CRUD-APP/contacts-application
+   cd CRUD-APP/contacts-app
    ```
 
 2. **Start Docker services:**

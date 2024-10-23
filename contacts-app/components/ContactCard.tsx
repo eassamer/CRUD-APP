@@ -86,7 +86,7 @@ const ContactCard: React.FC<ContactCardProps> = ({ contact, onDelete }) => {
       </Dialog>
       <div className="flex space-x-2">
         <EditContact contact={contact} />
-        <DeleteButton onDelete={() => onDelete} />
+        <DeleteButton onDelete={() => onDelete()} />
       </div>
     </div>
   );

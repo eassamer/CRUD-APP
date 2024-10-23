@@ -1,4 +1,3 @@
-// components/AddContactDialog.tsx
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +14,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useContacts } from "@/context/ContactsContext";
 
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePhoneNumber = (phone: string) => {
+  const phoneRegex = /^\+?[0-9]+$/;
+  return phoneRegex.test(phone);
+};
+
 const AddContactDialog = () => {
   const { addContact } = useContacts();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -25,11 +34,47 @@ const AddContactDialog = () => {
     address: "",
     notes: "",
   });
+  const [errors, setErrors] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const validateFields = () => {
+    if (
+      newContact.name.length == 0 ||
+      newContact.phone.length == 0 ||
+      newContact.email.length == 0
+    ) {
+      return "Name, Phone, Email, Address are required.";
+    }
+    if (!validatePhoneNumber(newContact.phone)) {
+      return "Phone number can only contain numbers and may start with a '+'.";
+    }
+
+    if (!validateEmail(newContact.email)) {
+      return "Invalid email address.";
+    }
+
+    return null;
+  };
 
   const handleAddContact = async () => {
-    await addContact(newContact);
-    setDialogOpen(false);
-    setNewContact({ name: "", phone: "", email: "", address: "", notes: "" });
+    const validationError = validateFields();
+    if (validationError) {
+      setErrors(validationError);
+      return;
+    }
+
+    setIsLoading(true);
+    setErrors(null);
+
+    try {
+      await addContact(newContact);
+      setDialogOpen(false);
+      setNewContact({ name: "", phone: "", email: "", address: "", notes: "" });
+    } catch (error) {
+      setErrors("Failed to add the contact. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,17 +85,18 @@ const AddContactDialog = () => {
           Add Contact
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] rounded-md">
+      <DialogContent className="w-[95%] md:w-[425px] rounded-md">
         <DialogHeader>
           <DialogTitle>Add New Contact</DialogTitle>
           <DialogDescription>
             Fill in the details to create a new contact.
           </DialogDescription>
         </DialogHeader>
+
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Name
+              Name*
             </Label>
             <Input
               id="name"
@@ -63,7 +109,7 @@ const AddContactDialog = () => {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="phone" className="text-right">
-              Phone
+              Phone*
             </Label>
             <Input
               id="phone"
@@ -76,7 +122,7 @@ const AddContactDialog = () => {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="email" className="text-right">
-              Email
+              Email*
             </Label>
             <Input
               id="email"
@@ -89,7 +135,7 @@ const AddContactDialog = () => {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="address" className="text-right">
-              Address
+              Address*
             </Label>
             <Input
               id="address"
@@ -114,9 +160,12 @@ const AddContactDialog = () => {
             />
           </div>
         </div>
+
+        {errors && <p className="text-red-600 text-sm mt-2">{errors}</p>}
+
         <DialogFooter>
-          <Button type="button" onClick={handleAddContact}>
-            Add Contact
+          <Button type="button" onClick={handleAddContact} disabled={isLoading}>
+            {isLoading ? "Adding..." : "Add Contact"}
           </Button>
         </DialogFooter>
       </DialogContent>

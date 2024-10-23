@@ -23,7 +23,7 @@ const DeleteButton = ({ onDelete }: { onDelete: () => void }) => {
         </button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px] rounded-md">
+      <DialogContent className="w-[95%] md:w-[425px] rounded-md">
         <DialogHeader>
           <DialogTitle>Confirm Deletion</DialogTitle>
           <DialogDescription>
@@ -41,7 +41,9 @@ const DeleteButton = ({ onDelete }: { onDelete: () => void }) => {
           >
             Yes
           </Button>
-          <Button onClick={() => setDialogOpen(false)}>No</Button>
+          <Button className="mb-4 md:mb-0" onClick={() => setDialogOpen(false)}>
+            No
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

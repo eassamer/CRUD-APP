@@ -4,32 +4,32 @@ services:
   postgres:
     image: postgres:15-alpine
     container_name: postgres-db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgrespassword
-      POSTGRES_DB: contactsdb
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - contacts-net
+    env_file:
+      - .env
 
-  nextjs:
+  app:
+    depends_on:
+      - postgres
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/contactsdb
-    depends_on:
-      - postgres
-    volumes:
-      - .:/app
     networks:
       - contacts-net
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:

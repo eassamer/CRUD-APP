@@ -21,26 +21,34 @@ To set up and run the project locally, follow these steps:
    ```
 
    Navigate to the project directory:
-   
+
    ```bash
    cd CRUD-APP/contacts-app
    ```
 
-2. **Start Docker services:**
+2. **Create the .env file:**
 
-    Ensure Docker is running, then bring up the necessary services
+   Copy the contents of .env.example into a new .env file
 
-    ```bash
-    docker compose up --build
-    ```
+   ```bash
+   cp .env.example .env
+   ```
 
-3. **Access the app:**
+3. **Start Docker services:**
 
-    Open your web browser and navigate to:
+   Ensure Docker is running, then bring up the necessary services
 
-    ```bash
-    http://localhost:3000
-    ```
+   ```bash
+   docker compose up --build
+   ```
+
+4. **Access the app:**
+
+   Open your web browser and navigate to:
+
+   ```bash
+   http://localhost:3000
+   ```
 
 ## Features
 
